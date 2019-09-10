@@ -1,6 +1,9 @@
 ## Pay attention!
-**If you need a regular (not rotated) text at the corner of widgets please consider to use Stack with Containers and Text widgets.
-This package was developed to provide auto rotation of TextSpans. **
+###### If you need a regular (not rotated) text at the corner of widgets please consider to use Stack with Containers and Text widgets.
+###### This package was developed to provide auto rotation of TextSpans.
+
+![all](https://user-images.githubusercontent.com/13645580/64602444-7f58f600-d3c7-11e9-801a-5c2e23c892fe.png)
+
 
 ## Example
 
