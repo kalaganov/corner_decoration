@@ -20,8 +20,7 @@ class RotatedCornerDecoration extends Decoration {
     LabelInsets labelInsets,
     BadgeShadow badgeShadow,
   })  : assert(geometry != null),
-        assert((color != null && gradient == null) ||
-            (color == null && gradient != null)),
+        assert((color != null && gradient == null) || (color == null && gradient != null)),
         _geometry = geometry,
         _color = color,
         _gradient = gradient,
@@ -31,8 +30,7 @@ class RotatedCornerDecoration extends Decoration {
 
   @override
   BoxPainter createBoxPainter([onChanged]) {
-    return _BadgePainter(
-        _geometry, _color, _gradient, _textSpan, _insets, _shadow);
+    return _BadgePainter(_geometry, _color, _gradient, _textSpan, _insets, _shadow);
   }
 }
 
@@ -44,16 +42,13 @@ class _BadgePainter extends BoxPainter {
   final LabelInsets _insets;
   final BadgeShadow _shadow;
 
-  const _BadgePainter(this._geometry, this._color, this._gradient,
-      this._textSpan, this._insets, this._shadow);
+  const _BadgePainter(this._geometry, this._color, this._gradient, this._textSpan, this._insets, this._shadow);
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
-    canvas.clipRRect(
-        _geometry._createRRect(offset, cfg.size.width, cfg.size.height));
     canvas.save();
-    final Offset pathOffset =
-        _geometry._calcPathOffset(offset, cfg.size.width, cfg.size.height);
+    canvas.clipRRect(_geometry._createRRect(offset, cfg.size.width, cfg.size.height));
+    final Offset pathOffset = _geometry._calcPathOffset(offset, cfg.size.width, cfg.size.height);
     canvas.translate(pathOffset.dx, pathOffset.dy);
     final Path path = _geometry._createPath();
     if (_shadow != null) {
@@ -77,8 +72,7 @@ class _BadgePainter extends BoxPainter {
     if (_color != null) {
       paint.color = _color;
     } else {
-      paint.shader = _gradient
-          .createShader(Rect.fromLTWH(0, 0, _geometry.width, _geometry.height));
+      paint.shader = _gradient.createShader(Rect.fromLTWH(0, 0, _geometry.width, _geometry.height));
     }
     return paint..isAntiAlias = true;
   }
@@ -120,8 +114,7 @@ class BadgeGeometry {
 
   RRect _createRRect(Offset offset, double w, double h) {
     final radius = Radius.circular(cornerRadius);
-    return RRect.fromLTRBR(
-        offset.dx, offset.dy, offset.dx + w, offset.dy + h, radius);
+    return RRect.fromLTRBR(offset.dx, offset.dy, offset.dx + w, offset.dy + h, radius);
   }
 
   Offset _calcPathOffset(Offset offset, double w, double h) {
@@ -148,13 +141,11 @@ class BadgeGeometry {
         final textShift = _calcHypo(v, v);
         return Offset(textShift, textShift);
       case BadgeAlignment.topLeft:
-        final v = painter.height / 2 +
-            math.sqrt((insets.baselineShift * insets.baselineShift) / 2);
+        final v = painter.height / 2 + math.sqrt((insets.baselineShift * insets.baselineShift) / 2);
         final textShift = _calcHypo(v, v);
         return Offset(-textShift, -textShift);
       default:
-        final v = painter.height / 2 +
-            math.sqrt((insets.baselineShift * insets.baselineShift) / 2);
+        final v = painter.height / 2 + math.sqrt((insets.baselineShift * insets.baselineShift) / 2);
         final textShift = _calcHypo(v, v);
         return Offset(textShift, -textShift);
     }
@@ -209,13 +200,16 @@ class LabelInsets {
     this.start,
     this.end,
   })  : assert(baselineShift != null && baselineShift >= 0),
-        assert((start == null && end == null) ||
-            (start != null && start > 0 && end == null) ||
-            (end != null && end > 0 && start == null));
+        assert((start == null && end == null) || (start != null && start > 0 && end == null) || (end != null && end > 0 && start == null));
 
   Offset _createTextOffset() {
     return Offset(
-        start == null && end == null ? 0 : start != null ? start : -end, 0);
+        start == null && end == null
+            ? 0
+            : start != null
+                ? start
+                : -end,
+        0);
   }
 }
 
