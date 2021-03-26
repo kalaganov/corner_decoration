@@ -1,3 +1,7 @@
+## [2.0.0] - 26.03.2021
+
+* Migrate to null safety.
+
 ## [1.0.2] - 14.11.2020
 
 * fix bug https://github.com/kalaganov/corner_decoration/issues/2
