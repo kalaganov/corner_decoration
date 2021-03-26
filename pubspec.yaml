@@ -1,15 +1,11 @@
 name: rotated_corner_decoration
 description: RotatedCornerDecoration package was developed to create and apply corner triangle badges. It provides auto rotation of TextSpans.
-version: 1.0.2
+version: 2.0.0
 homepage: https://github.com/kalaganov/corner_decoration
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
-    sdk: flutter
-
-dev_dependencies:
-  flutter_test:
     sdk: flutter

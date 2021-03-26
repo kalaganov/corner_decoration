@@ -6,53 +6,53 @@ import 'package:flutter/material.dart';
 
 class RotatedCornerDecoration extends Decoration {
   final BadgeGeometry _geometry;
-  final Color _color;
-  final Gradient _gradient;
-  final TextSpan _textSpan;
+  final Color? _color;
+  final Gradient? _gradient;
+  final TextSpan? _textSpan;
   final LabelInsets _insets;
-  final BadgeShadow _shadow;
+  final BadgeShadow? _shadow;
 
   const RotatedCornerDecoration({
-    @required BadgeGeometry geometry,
-    Color color,
-    Gradient gradient,
-    TextSpan textSpan,
-    LabelInsets labelInsets,
-    BadgeShadow badgeShadow,
-  })  : assert(geometry != null),
-        assert((color != null && gradient == null) || (color == null && gradient != null)),
+    required BadgeGeometry geometry,
+    Color? color,
+    Gradient? gradient,
+    TextSpan? textSpan,
+    LabelInsets labelInsets = const LabelInsets(),
+    BadgeShadow? badgeShadow,
+  })  : assert((color != null && gradient == null) || (color == null && gradient != null)),
         _geometry = geometry,
         _color = color,
         _gradient = gradient,
         _textSpan = textSpan,
-        _insets = labelInsets ?? const LabelInsets(),
+        _insets = labelInsets,
         _shadow = badgeShadow;
 
   @override
-  BoxPainter createBoxPainter([onChanged]) {
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
     return _BadgePainter(_geometry, _color, _gradient, _textSpan, _insets, _shadow);
   }
 }
 
 class _BadgePainter extends BoxPainter {
   final BadgeGeometry _geometry;
-  final Color _color;
-  final Gradient _gradient;
-  final TextSpan _textSpan;
+  final Color? _color;
+  final Gradient? _gradient;
+  final TextSpan? _textSpan;
   final LabelInsets _insets;
-  final BadgeShadow _shadow;
+  final BadgeShadow? _shadow;
 
   const _BadgePainter(this._geometry, this._color, this._gradient, this._textSpan, this._insets, this._shadow);
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
+    final size = cfg.size ?? const Size(0, 0);
     canvas.save();
-    canvas.clipRRect(_geometry._createRRect(offset, cfg.size.width, cfg.size.height));
-    final Offset pathOffset = _geometry._calcPathOffset(offset, cfg.size.width, cfg.size.height);
+    canvas.clipRRect(_geometry._createRRect(offset, size.width, size.height));
+    final Offset pathOffset = _geometry._calcPathOffset(offset, size.width, size.height);
     canvas.translate(pathOffset.dx, pathOffset.dy);
     final Path path = _geometry._createPath();
     if (_shadow != null) {
-      canvas.drawShadow(path, _shadow.color, _shadow.elevation, false);
+      canvas.drawShadow(path, _shadow!.color, _shadow!.elevation, false);
     }
     canvas.drawPath(path, _badgePaint);
 
@@ -70,9 +70,9 @@ class _BadgePainter extends BoxPainter {
   Paint get _badgePaint {
     final Paint paint = Paint();
     if (_color != null) {
-      paint.color = _color;
+      paint.color = _color!;
     } else {
-      paint.shader = _gradient.createShader(Rect.fromLTWH(0, 0, _geometry.width, _geometry.height));
+      paint.shader = _gradient!.createShader(Rect.fromLTWH(0, 0, _geometry.width, _geometry.height));
     }
     return paint..isAntiAlias = true;
   }
@@ -91,9 +91,7 @@ class BadgeShadow {
   final Color color;
   final double elevation;
 
-  const BadgeShadow({this.color, this.elevation})
-      : assert(color != null),
-        assert(elevation != null && elevation > 0);
+  const BadgeShadow({required this.color, required this.elevation}) : assert(elevation > 0);
 }
 
 class BadgeGeometry {
@@ -103,14 +101,13 @@ class BadgeGeometry {
   final BadgeAlignment alignment;
 
   const BadgeGeometry({
-    @required this.width,
-    @required this.height,
+    required this.width,
+    required this.height,
     this.cornerRadius = 4,
     this.alignment = BadgeAlignment.topRight,
-  })  : assert(width != null && width > 0),
-        assert(height != null && height > 0),
-        assert(alignment != null),
-        assert(cornerRadius != null && cornerRadius >= 0);
+  })  : assert(width > 0),
+        assert(height > 0),
+        assert(cornerRadius >= 0);
 
   RRect _createRRect(Offset offset, double w, double h) {
     final radius = Radius.circular(cornerRadius);
@@ -192,25 +189,17 @@ class BadgeGeometry {
 
 class LabelInsets {
   final double baselineShift;
-  final double start;
-  final double end;
+  final double? start;
+  final double? end;
 
   const LabelInsets({
     this.baselineShift = 1,
     this.start,
     this.end,
-  })  : assert(baselineShift != null && baselineShift >= 0),
+  })  : assert(baselineShift >= 0),
         assert((start == null && end == null) || (start != null && start > 0 && end == null) || (end != null && end > 0 && start == null));
 
-  Offset _createTextOffset() {
-    return Offset(
-        start == null && end == null
-            ? 0
-            : start != null
-                ? start
-                : -end,
-        0);
-  }
+  Offset _createTextOffset() => Offset(start == null && end == null ? 0 : (start != null ? start! : -end!), 0);
 }
 
 double _calcHypo(double w, double h) => math.sqrt(w * w + h * h);
