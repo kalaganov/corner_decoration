@@ -1,281 +1,251 @@
+import 'package:example/demo_item.dart';
 import 'package:flutter/material.dart';
 import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
 class DemoGrid extends StatelessWidget {
+  const DemoGrid({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
-      crossAxisCount: 3,
-      children: <Widget>[
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            child: const Text('Apply badge colors and font styles'),
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.blueGrey,
-              geometry: const BadgeGeometry(width: 48, height: 48),
-              textSpan: const TextSpan(
-                text: 'OMG',
-                style: TextStyle(
-                  fontSize: 10,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.bold,
-                  shadows: [BoxShadow(color: Colors.yellowAccent, blurRadius: 4)],
+    return Theme(
+      data: Theme.of(context).copyWith(
+        cardTheme: CardTheme.of(context).copyWith(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+          ),
+        ),
+      ),
+      child: GridView.count(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 48),
+        crossAxisSpacing: 4,
+        mainAxisSpacing: 4,
+        crossAxisCount: 2,
+        children: <Widget>[
+          const DemoItem(
+            text: 'Small simple badge',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
+              color: Color(0xffffd700),
+              badgeSize: Size(16, 16),
+            ),
+          ),
+          Theme(
+            data: Theme.of(context).copyWith(
+              cardTheme: CardTheme.of(context).copyWith(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            child: const DemoItem(
+              text: 'Apply corner radius, badge position, color and text style',
+              foregroundDecoration: RotatedCornerDecoration.withColor(
+                color: Colors.red,
+                spanBaselineShift: 4,
+                badgeSize: Size(64, 64),
+                badgeCornerRadius: Radius.circular(8),
+                badgePosition: BadgePosition.topStart,
+                textSpan: TextSpan(
+                  text: 'OMG',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      BoxShadow(color: Colors.yellowAccent, blurRadius: 8),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(4),
-          child: Material(
-            elevation: 1,
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-//              boxShadow: [BoxShadow(color: Colors.black26)],
-              ),
-              child: const Text('cornerRadius=0', style: TextStyle(fontSize: 12)),
-              foregroundDecoration: const RotatedCornerDecoration(
-                color: Colors.redAccent,
-                geometry: const BadgeGeometry(width: 30, height: 30, cornerRadius: 0),
-              ),
-            ),
-          ),
-        ),
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            child: const Text('cornerRadius=16', style: TextStyle(fontSize: 12)),
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.redAccent,
-              geometry: const BadgeGeometry(width: 32, height: 32, cornerRadius: 16),
-            ),
-          ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomLeft,
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.green,
-              geometry: const BadgeGeometry(width: 90, height: 90),
-              textSpan: const TextSpan(
-                text: 'DEFAULT',
-                style: TextStyle(fontSize: 10, backgroundColor: Colors.black),
-              ),
-            ),
-            child: const Text('By default baselineShift=1'),
-          ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomLeft,
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.green,
-              geometry: const BadgeGeometry(width: 90, height: 90),
-              textSpan: const TextSpan(
-                text: 'BASELINE SHIFT 0',
-                style: TextStyle(fontSize: 10, backgroundColor: Colors.black),
-              ),
-              labelInsets: const LabelInsets(baselineShift: 0),
-            ),
-            child: const Text('But it can be changed'),
-          ),
-        ),
-        Card(
-          child: Container(
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.green,
-              geometry: const BadgeGeometry(width: 90, height: 90),
-              textSpan: const TextSpan(
-                text: 'BASELINE SHIFT 3',
-                style: TextStyle(fontSize: 10, backgroundColor: Colors.black),
-              ),
-              labelInsets: const LabelInsets(baselineShift: 3),
-            ),
-          ),
-        ),
-        Card(
-          child: Container(
-            foregroundDecoration: const RotatedCornerDecoration(
+          const DemoItem(
+            text: 'Multiline badge',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
               color: Colors.blue,
-              geometry: const BadgeGeometry(width: 64, height: 64),
-              textSpan: const TextSpan(
+              badgeSize: Size(64, 64),
+              textSpan: TextSpan(
                 text: 'Multiline\nbadge',
                 style: TextStyle(fontSize: 10),
               ),
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            child: const Text('Just empty badge on foreground', style: TextStyle(fontSize: 12)),
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.purpleAccent,
-              geometry: const BadgeGeometry(width: 48, height: 48),
-            ),
-          ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            child: const Text('Just empty badge on background', style: TextStyle(fontSize: 12)),
-            decoration: const RotatedCornerDecoration(
-              color: Colors.orange,
-              geometry: const BadgeGeometry(width: 48, height: 48),
-            ),
-          ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomLeft,
-            child: const Text('Text Span Example'),
-            foregroundDecoration: const RotatedCornerDecoration(
+          const DemoItem(
+            text: 'TextSpan example',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
               color: Colors.black87,
-              geometry: const BadgeGeometry(width: 64, height: 64),
-              textSpan: const TextSpan(
+              badgeSize: Size(64, 64),
+              spanBaselineShift: 2,
+              textSpan: TextSpan(
                 children: [
                   TextSpan(
                     text: 'LOREM\n',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.redAccent),
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                    ),
                   ),
                   TextSpan(
                     text: 'IPSUM',
-                    style: TextStyle(fontSize: 7, fontStyle: FontStyle.italic, letterSpacing: 5, color: Colors.yellow),
+                    style: TextStyle(
+                      fontSize: 7,
+                      fontStyle: FontStyle.italic,
+                      letterSpacing: 5,
+                      color: Colors.yellow,
+                    ),
                   ),
                 ],
               ),
-              labelInsets: const LabelInsets(baselineShift: 2),
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomLeft,
-            foregroundDecoration: const RotatedCornerDecoration(
+          const DemoItem(
+            text: 'badgeSize: Size(128, 48)',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
               color: Colors.brown,
-              geometry: const BadgeGeometry(width: 120, height: 50),
-              textSpan: const TextSpan(
+              badgeSize: Size(112, 56),
+              textSpan: TextSpan(
                 text: 'WEIRD BADGE',
                 style: TextStyle(fontSize: 10),
               ),
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomLeft,
-            child: const Text(
-              'Extra space before text OR after.\nNot both!\n\nlabel inset start=8',
-              style: TextStyle(fontSize: 12),
-            ),
-            foregroundDecoration: const RotatedCornerDecoration(
+          const DemoItem(
+            text: 'spanHorizontalOffset: -12',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
               color: Colors.blueGrey,
-              geometry: const BadgeGeometry(width: 48, height: 48),
-              textSpan: const TextSpan(text: 'WOW', style: TextStyle(fontSize: 10)),
-              labelInsets: const LabelInsets(start: 8),
+              badgeSize: Size(64, 64),
+              textSpan: TextSpan(
+                text: 'WOW',
+                style: TextStyle(fontSize: 10),
+              ),
+              spanHorizontalOffset: -12,
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomLeft,
-            child: const Text('Apply any gradients instead of colors '),
-            foregroundDecoration: const RotatedCornerDecoration(
+          const DemoItem(
+            text: 'By default\n'
+                'baselineShift: 1.0',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
+              color: Colors.green,
+              badgeSize: Size(64, 64),
+              textSpan: TextSpan(
+                text: 'SHIFT 1',
+                style: TextStyle(fontSize: 10, backgroundColor: Colors.black),
+              ),
+            ),
+          ),
+          const DemoItem(
+            text: 'baselineShift: 4.0',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
+              color: Colors.green,
+              badgeSize: Size(64, 64),
+              spanBaselineShift: 3,
+              textSpan: TextSpan(
+                text: 'SHIFT 4',
+                style: TextStyle(fontSize: 10, backgroundColor: Colors.black),
+              ),
+            ),
+          ),
+          const DemoItem(
+            text: 'Apply any gradients instead of colors.\n'
+                'e.g. LinearGradients',
+            foregroundDecoration: RotatedCornerDecoration.withGradient(
               gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                stops: [0, 0.6],
-                colors: [Colors.blue, Colors.greenAccent],
+                colors: [Colors.blue, Colors.lightGreenAccent],
               ),
-              geometry: const BadgeGeometry(width: 48, height: 48),
-              labelInsets: const LabelInsets(baselineShift: 2),
+              badgeSize: Size(64, 64),
             ),
-          ),
-        ),
-        Card(
-          child: Container(
-            foregroundDecoration: const RotatedCornerDecoration(
+            decoration: RotatedCornerDecoration.withGradient(
+              badgePosition: BadgePosition.topStart,
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
-                colors: [Colors.purpleAccent, Colors.blue],
+                stops: [0, 0.5, 1],
+                colors: [
+                  Colors.purpleAccent,
+                  Colors.amber,
+                  Colors.blue,
+                ],
               ),
-              geometry: const BadgeGeometry(width: 48, height: 48),
+              badgeSize: Size(64, 64),
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            foregroundDecoration: RotatedCornerDecoration(
+          DemoItem(
+            text: 'or RadialGradient, SweepGradient',
+            foregroundDecoration: RotatedCornerDecoration.withGradient(
               gradient: RadialGradient(
                 center: Alignment.topRight,
                 radius: 1.5,
-                stops: [0.1, 0.5],
-                colors: [Colors.redAccent, Colors.redAccent.withAlpha(0)],
+                stops: const [0, 0.25, 0.5],
+                colors: [
+                  Colors.redAccent,
+                  Colors.redAccent.withOpacity(0.5),
+                  Colors.redAccent.withOpacity(0),
+                ],
               ),
-              geometry: const BadgeGeometry(width: 48, height: 48),
+              badgeSize: const Size(64, 64),
+            ),
+            decoration: RotatedCornerDecoration.withGradient(
+              badgePosition: BadgePosition.topStart,
+              gradient: SweepGradient(
+                center: const FractionalOffset(0.27, -0.65),
+                colors: List.generate(360, _generator),
+              ),
+              badgeSize: const Size(64, 64),
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomLeft,
-            child: const Text('Add shadow with color and elevation'),
-            foregroundDecoration: const RotatedCornerDecoration(
-                color: Colors.yellow,
-                geometry: const BadgeGeometry(width: 48, height: 48),
-                badgeShadow: const BadgeShadow(color: Colors.black87, elevation: 1.5)),
-          ),
-        ),
-        Card(
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            alignment: Alignment.bottomRight,
-            child: const Text('Apply badge alignment', textAlign: TextAlign.end),
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.teal,
-              geometry: const BadgeGeometry(width: 48, height: 48, alignment: BadgeAlignment.bottomLeft),
-              textSpan: TextSpan(text: 'o, rly?', style: TextStyle(fontSize: 10, letterSpacing: 0.5)),
-              labelInsets: LabelInsets(baselineShift: 3),
+          const DemoItem(
+            text: 'Add shadow with color and elevation',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
+              color: Colors.lightBlue,
+              badgeSize: Size(64, 64),
+              badgeShadow: BadgeShadow(color: Colors.black, elevation: 4),
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.lightGreen,
-              geometry: const BadgeGeometry(width: 48, height: 48, alignment: BadgeAlignment.bottomRight),
-              textSpan: TextSpan(text: 'WHY?', style: TextStyle(fontSize: 12)),
-              labelInsets: LabelInsets(baselineShift: 3, start: 1),
+          const Directionality(
+            textDirection: TextDirection.ltr,
+            child: DemoItem(
+              text: 'textDirection: TextDirection.ltr\n\n'
+                  'badgePosition: bottomStart',
+              foregroundDecoration: RotatedCornerDecoration.withColor(
+                color: Colors.indigo,
+                badgeSize: Size(64, 64),
+                badgePosition: BadgePosition.bottomStart,
+                textDirection: TextDirection.ltr,
+              ),
             ),
           ),
-        ),
-        Card(
-          child: Container(
-            foregroundDecoration: const RotatedCornerDecoration(
-              color: Colors.pinkAccent,
-              geometry: const BadgeGeometry(width: 48, height: 48, alignment: BadgeAlignment.topLeft),
-              textSpan: TextSpan(text: 'OK', style: TextStyle(fontSize: 12)),
-              labelInsets: LabelInsets(baselineShift: 3, start: 1),
+          const DemoItem(
+            text: 'textDirection: TextDirection.rtl\n\n'
+                'badgePosition: bottomStart',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
+              color: Colors.indigo,
+              badgeSize: Size(64, 64),
+              badgePosition: BadgePosition.bottomStart,
+              textDirection: TextDirection.rtl,
             ),
           ),
-        ),
-      ],
+          const DemoItem(
+            text: 'experimental feature:\nshow emoji',
+            foregroundDecoration: RotatedCornerDecoration.withColor(
+              color: Colors.purple,
+              badgeSize: Size(64, 64),
+              isEmoji: true,
+              textSpan: TextSpan(
+                text: '🤮',
+                style: TextStyle(fontSize: 20, height: 1.7),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+  }
+
+  static Color _generator(int h) {
+    return HSLColor.fromAHSL(1, h.toDouble(), 1, 0.5).toColor();
   }
 }
