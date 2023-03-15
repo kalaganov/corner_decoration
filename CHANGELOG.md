@@ -1,4 +1,4 @@
-## [2.1.0] - 12.03.2021
+## [2.1.0] - 12.03.2023
 
 * Increased minimum SDK version to 2.17.0
 * Breaking changes: 
