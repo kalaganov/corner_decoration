@@ -1,6 +1,6 @@
 name: rotated_corner_decoration
 description: RotatedCornerDecoration package was developed to create and apply corner badges. It provides auto rotation of TextSpans.
-version: 2.1.0
+version: 2.1.0+1
 homepage: https://github.com/kalaganov/corner_decoration
 
 environment:
